@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HKSolutions.BookStore.Models;
+using HKSolutions.BookStore.Repository;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,19 +10,26 @@ namespace HKSolutions.BookStore.Controllers
 {
     public class BookController : Controller
     {
-        public string GetallBooks() {
+        private readonly BookRepository _bookRepository =null;
 
-            return "GetAllBooks";
-        }
-
-        public string GetBook(int id)
+        public BookController()
         {
-            return $"Book with id = {id} ";
+            _bookRepository = new BookRepository();    
         }
 
-        public string SearchBooks (string bookName, string authorName ){
+        public List<BookModel> GetallBooks() {
 
-            return $"Book with name = {bookName} &  Author = {authorName} ";
+            return _bookRepository.GetAllBooks();
+        }
+
+        public BookModel GetBook(int id)
+        {
+            return _bookRepository.GetBookById(id);
+        }
+
+        public List<BookModel> SearchBooks (string bookName, string authorName ){
+
+            return _bookRepository.SearchBook(bookName,authorName);
   } 
     }
 }
